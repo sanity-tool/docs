@@ -1,0 +1,22 @@
+@startuml
+participant "//sanity-runner//" as runner #lightgreen
+participant make
+participant cc
+participant "sanity-cc" as scc #lightgreen
+database options #lightgreen
+participant sanity #lightgreen
+database "//report//" as report #lightgreen
+
+runner -> make : CC=sanity-cc
+make -> scc : filename.c -I.. -D..
+scc -> options : filename.c -I.. -D.. 
+scc -> cc : filename.c -I.. -D..
+... repeated for each file ...
+
+runner --> sanity
+sanity <-- options
+sanity -> cc: filename.c -I.. -D.. -emit-llvm -femit-all-decls
+sanity --> report
+... repeated for each file ...
+
+@enduml
