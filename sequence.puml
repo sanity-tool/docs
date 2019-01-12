@@ -1,11 +1,14 @@
 @startuml
 participant "//sanity-runner//" as runner #lightgreen
-participant make
-participant cc
+participant make #lightyellow
+participant cc #lightyellow
+database "//logs//" as logs #lightyellow
 participant "sanity-cc" as scc #lightgreen
 database options #lightgreen
 participant sanity #lightgreen
 database "//report//" as report #lightgreen
+participant "//sanity-uploader//" as uploader #lightgreen
+participant "//report-server//" as reports #lightgreen
 
 runner -> make : CC=sanity-cc
 make -> scc : filename.c -I.. -D..
@@ -19,11 +22,15 @@ sanity -> cc: filename.c -I.. -D.. -emit-llvm -femit-all-decls
 sanity --> report
 ... repeated for each file ...
 
+runner --> uploader
+uploader <-- report
+uploader <-- logs
+uploader --> reports
+
 legend
 |= |= Type |
 |<back:#lightyellow>   </back>| example external tool |
 |<back:#lightgreen>   </back>| sanity-tool component |
 |<back:#lightgreen>   </back>| //future sanity-tool component// |
 endlegend
-
 @enduml
