@@ -19,4 +19,11 @@ sanity -> cc: filename.c -I.. -D.. -emit-llvm -femit-all-decls
 sanity --> report
 ... repeated for each file ...
 
+legend
+|= |= Type |
+|<back:#lightyellow>   </back>| example external tool |
+|<back:#lightgreen>   </back>| sanity-tool component |
+|<back:#lightgreen>   </back>| //future sanity-tool component// |
+endlegend
+
 @enduml
